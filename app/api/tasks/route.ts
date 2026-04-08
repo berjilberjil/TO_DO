@@ -31,6 +31,7 @@ export async function POST(request: Request) {
   if (body._seed && Array.isArray(body._seed) && tasks.length === 0) {
     tasks = body._seed;
     nextId = Math.max(...tasks.map((t) => t.id), 0) + 1;
+    return Response.json(tasks);
   }
 
   const title = typeof body.title === "string" ? body.title.trim() : "";
