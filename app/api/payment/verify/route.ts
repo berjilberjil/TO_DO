@@ -4,6 +4,14 @@ import crypto from "crypto";
 
 export async function POST(request: Request) {
   try {
+    const secret = process.env.RAZORPAY_KEY_SECRET;
+    if (!secret) {
+      return Response.json(
+        { error: "Payment verification not configured. Set RAZORPAY_KEY_SECRET in environment variables." },
+        { status: 500 }
+      );
+    }
+
     const body = await request.json();
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = body;
 
@@ -15,7 +23,7 @@ export async function POST(request: Request) {
     }
 
     const expectedSignature = crypto
-      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
+      .createHmac("sha256", secret)
       .update(`${razorpay_order_id}|${razorpay_payment_id}`)
       .digest("hex");
 

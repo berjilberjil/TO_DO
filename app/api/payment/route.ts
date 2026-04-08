@@ -7,7 +7,9 @@ function getRazorpay() {
   const key_secret = process.env.RAZORPAY_KEY_SECRET;
 
   if (!key_id || !key_secret) {
-    throw new Error("Razorpay credentials not configured. Set RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET environment variables.");
+    throw new Error(
+      "Razorpay credentials not configured. Add RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET to your environment variables (Netlify: Site configuration > Environment variables)."
+    );
   }
 
   return new Razorpay({ key_id, key_secret });
